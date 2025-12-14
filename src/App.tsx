@@ -7,6 +7,8 @@ import project1_3 from './assets/project1_3.png';
 import project2 from './assets/project2.png';
 import project2_2 from './assets/project2_2.png';
 import project2_3 from './assets/project2_3.png';
+import project3 from './assets/project3.png';
+import project3_2 from './assets/project3_2.png';
 
 interface Work {
     id: number;
@@ -38,7 +40,14 @@ function App() {
             image: project2,
             images: [project2, project2_2, project2_3]
         },
-        { id: 3, title: 'Synthetic Landscapes', category: '3D Motion', color: '#ffcc00' },
+        {
+            id: 3,
+            title: 'Synthetic Landscapes',
+            category: '3D Motion',
+            color: '#ffcc00',
+            image: project3,
+            images: [project3, project3_2]
+        },
     ];
 
     const selectedWork = works.find(w => w.id === activeWork);
