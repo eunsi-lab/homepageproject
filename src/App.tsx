@@ -48,6 +48,24 @@ function App() {
             image: project3,
             images: [project3, project3_2]
         },
+        {
+            id: 4,
+            title: 'Smart Home Hub',
+            category: 'Product Design',
+            color: '#A0C4FF',
+        },
+        {
+            id: 5,
+            title: 'VR Experience',
+            category: 'Immersive Tech',
+            color: '#BDB2FF',
+        },
+        {
+            id: 6,
+            title: 'Brand Identity',
+            category: 'Visual Design',
+            color: '#FFC6FF',
+        },
     ];
 
     const selectedWork = works.find(w => w.id === activeWork);
