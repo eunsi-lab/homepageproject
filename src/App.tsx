@@ -4,6 +4,9 @@ import { useState } from 'react';
 import project1 from './assets/project1.png';
 import project1_2 from './assets/project1_2.png';
 import project1_3 from './assets/project1_3.png';
+import project2 from './assets/project2.png';
+import project2_2 from './assets/project2_2.png';
+import project2_3 from './assets/project2_3.png';
 
 interface Work {
     id: number;
@@ -27,7 +30,14 @@ function App() {
             image: project1,
             images: [project1, project1_2, project1_3]
         },
-        { id: 2, title: 'Neural Interface', category: 'UI/UX Design', color: '#00ccff' },
+        {
+            id: 2,
+            title: 'Neural Interface',
+            category: 'UI/UX Design',
+            color: '#00ccff',
+            image: project2,
+            images: [project2, project2_2, project2_3]
+        },
         { id: 3, title: 'Synthetic Landscapes', category: '3D Motion', color: '#ffcc00' },
     ];
 
