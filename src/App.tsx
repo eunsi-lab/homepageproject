@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import project1 from './assets/project1.png';
 import project1_2 from './assets/project1_2.png';
 import project1_3 from './assets/project1_3.png';
@@ -29,10 +29,11 @@ interface Work {
     images?: string[];
 }
 
-// Floating Bubble Component with Parallax
-const FloatingBubble = ({ size, color, top, left, delay, duration, mouseX, mouseY, factor = 0.05 }: any) => {
-    const x = useTransform(mouseX, [0, window.innerWidth], [0, window.innerWidth * factor]);
-    const y = useTransform(mouseY, [0, window.innerHeight], [0, window.innerHeight * factor]);
+// Optimized Floating Bubble - Organic Natural Movement
+const FloatingBubble = ({ size, color, top, left, delay, duration }: any) => {
+    // Randomize movement slightly for each instance to feel "natural"
+    const randomY = Math.random() * 20 + 20; // 20px to 40px movement
+    const randomX = Math.random() * 20 - 10; // -10px to 10px drift
 
     return (
         <motion.div
@@ -44,17 +45,16 @@ const FloatingBubble = ({ size, color, top, left, delay, duration, mouseX, mouse
                 height: size,
                 borderRadius: '50%',
                 background: color,
-                opacity: 0.6,
-                filter: 'blur(8px)',
+                opacity: 0.5, // Slightly higher base opacity
+                filter: 'blur(30px)', // High blur for soft look
                 zIndex: 0,
                 pointerEvents: 'none',
-                x: x, // Parallax X
-                y: y, // Parallax Y
+                willChange: 'transform', // Performance optimization
             }}
             animate={{
-                y: [0, -30, 0], // Combined floating animation
-                x: [0, 15, 0],
-                scale: [1, 1.1, 1]
+                y: [0, -randomY, 0],
+                x: [0, randomX, 0],
+                scale: [1, 1.05, 1],
             }}
             transition={{
                 duration: duration,
@@ -70,10 +70,6 @@ function App() {
     const [activeWork, setActiveWork] = useState<number | null>(null);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-    // Mouse Position State for Parallax
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
-
     // Dynamic Font Loading
     useEffect(() => {
         const link = document.createElement('link');
@@ -81,11 +77,6 @@ function App() {
         link.rel = 'stylesheet';
         document.head.appendChild(link);
     }, []);
-
-    const handleMouseMove = (e: React.MouseEvent) => {
-        mouseX.set(e.clientX);
-        mouseY.set(e.clientY);
-    };
 
     const works: Work[] = [
         {
@@ -154,21 +145,20 @@ function App() {
 
     return (
         <div
-            onMouseMove={handleMouseMove}
             style={{
                 fontFamily: "'Poppins', sans-serif",
                 backgroundColor: '#fff',
                 minHeight: '100vh',
                 color: '#333',
-                overflowX: 'hidden', // Prevent horizontal scroll
+                overflowX: 'hidden',
                 position: 'relative'
             }}>
 
             {/* --- Global Background Decorations --- */}
             <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 0, pointerEvents: 'none', overflow: 'hidden' }}>
-                <FloatingBubble size="300px" color="rgba(160, 196, 255, 0.2)" top="-10%" left="60%" delay={0} duration={8} mouseX={mouseX} mouseY={mouseY} factor={-0.02} />
-                <FloatingBubble size="400px" color="rgba(189, 178, 255, 0.2)" top="40%" left="-10%" delay={2} duration={12} mouseX={mouseX} mouseY={mouseY} factor={0.03} />
-                <FloatingBubble size="200px" color="rgba(255, 198, 255, 0.3)" top="80%" left="80%" delay={1} duration={10} mouseX={mouseX} mouseY={mouseY} factor={-0.04} />
+                <FloatingBubble size="350px" color="rgba(160, 196, 255, 0.15)" top="-10%" left="60%" delay={0} duration={18} />
+                <FloatingBubble size="450px" color="rgba(189, 178, 255, 0.15)" top="40%" left="-10%" delay={5} duration={22} />
+                <FloatingBubble size="300px" color="rgba(255, 198, 255, 0.2)" top="80%" left="80%" delay={2} duration={15} />
             </div>
 
             {/* Navigation */}
@@ -210,12 +200,12 @@ function App() {
                 overflow: 'hidden',
                 zIndex: 1
             }}>
-                {/* Hero Specific Decorations */}
-                <FloatingBubble size="60px" color="#BDB2FF" top="20%" left="15%" delay={0} duration={4} mouseX={mouseX} mouseY={mouseY} factor={0.06} />
-                <FloatingBubble size="40px" color="#FFC6FF" top="25%" left="85%" delay={1} duration={5} mouseX={mouseX} mouseY={mouseY} factor={-0.08} />
-                <FloatingBubble size="80px" color="#A0C4FF" top="60%" left="80%" delay={0.5} duration={6} mouseX={mouseX} mouseY={mouseY} factor={0.04} />
-                <FloatingBubble size="25px" color="#BDB2FF" top="70%" left="10%" delay={2} duration={3} mouseX={mouseX} mouseY={mouseY} factor={-0.05} />
-                <FloatingBubble size="150px" color="rgba(255,255,255,0.8)" top="10%" left="50%" delay={0} duration={10} mouseX={mouseX} mouseY={mouseY} factor={0.02} />
+                {/* Hero Specific Decorations - Natural Flow */}
+                <FloatingBubble size="80px" color="#BDB2FF" top="20%" left="15%" delay={0} duration={10} />
+                <FloatingBubble size="60px" color="#FFC6FF" top="20%" left="85%" delay={2} duration={12} />
+                <FloatingBubble size="100px" color="#A0C4FF" top="60%" left="80%" delay={1} duration={14} />
+                <FloatingBubble size="40px" color="#BDB2FF" top="70%" left="10%" delay={4} duration={8} />
+                <FloatingBubble size="180px" color="rgba(255,255,255,0.8)" top="10%" left="50%" delay={0} duration={16} />
 
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
@@ -289,14 +279,23 @@ function App() {
 
             <main style={{ maxWidth: '1300px', margin: '0 auto', padding: '0 2rem', position: 'relative', zIndex: 1 }}>
 
-                {/* Works Section */}
-                <section id="work" style={{ padding: '2rem 0 10rem 0' }}>
-                    <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
+                {/* Works Section with New Background Bubbles */}
+                <section id="work" style={{ padding: '2rem 3rem 10rem 3rem', position: 'relative' }}>
+                    {/* Background decorations for Works section */}
+                    <FloatingBubble size="200px" color="rgba(160, 196, 255, 0.3)" top="10%" left="-5%" delay={1} duration={15} />
+                    <FloatingBubble size="300px" color="rgba(255, 198, 255, 0.2)" top="40%" left="90%" delay={3} duration={18} />
+                    <FloatingBubble size="150px" color="rgba(189, 178, 255, 0.3)" top="80%" left="5%" delay={2} duration={14} />
+                    {/* Extra bubbles for variety in sizes */}
+                    <FloatingBubble size="80px" color="rgba(255, 198, 255, 0.25)" top="20%" left="50%" delay={4} duration={12} />
+                    <FloatingBubble size="50px" color="rgba(160, 196, 255, 0.3)" top="70%" left="20%" delay={0} duration={10} />
+
+
+                    <div style={{ textAlign: 'center', marginBottom: '5rem', position: 'relative', zIndex: 2 }}>
                         <h2 style={{ fontSize: '3rem', fontWeight: 800, marginBottom: '1rem', letterSpacing: '-1px' }}>Playground</h2>
                         <p style={{ color: '#888', fontSize: '1.1rem' }}>Selected projects & experiments</p>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '3rem' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '3rem', position: 'relative', zIndex: 2 }}>
                         {works.map((work, index) => (
                             <motion.div
                                 key={work.id}
