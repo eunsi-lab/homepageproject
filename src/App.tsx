@@ -193,7 +193,51 @@ function App() {
                             </button>
 
                             <div style={{ flex: 1, minHeight: '400px', position: 'relative' }}>
-                                {selectedWork.image ? (
+                                {selectedWork.images ? (
+                                    <>
+                                        <img
+                                            src={selectedWork.images[currentImageIndex]}
+                                            alt={selectedWork.title}
+                                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                        />
+                                        <button
+                                            onClick={handleNextImage}
+                                            style={{
+                                                position: 'absolute',
+                                                top: '50%',
+                                                right: '20px',
+                                                transform: 'translateY(-50%)',
+                                                background: 'rgba(0,0,0,0.5)',
+                                                border: '1px solid rgba(255,255,255,0.2)',
+                                                color: 'white',
+                                                width: '50px',
+                                                height: '50px',
+                                                borderRadius: '50%',
+                                                cursor: 'pointer',
+                                                zIndex: 5,
+                                                fontSize: '1.5rem',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                backdropFilter: 'blur(5px)'
+                                            }}
+                                        >
+                                            &gt;
+                                        </button>
+                                        <div style={{
+                                            position: 'absolute',
+                                            bottom: '20px',
+                                            right: '20px',
+                                            background: 'rgba(0,0,0,0.6)',
+                                            padding: '0.2rem 0.8rem',
+                                            borderRadius: '20px',
+                                            color: '#fff',
+                                            fontSize: '0.9rem'
+                                        }}>
+                                            {currentImageIndex + 1} / {selectedWork.images.length}
+                                        </div>
+                                    </>
+                                ) : selectedWork.image ? (
                                     <img
                                         src={selectedWork.image}
                                         alt={selectedWork.title}
