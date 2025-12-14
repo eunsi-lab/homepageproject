@@ -36,7 +36,7 @@ function App() {
     const handleNextImage = (e: React.MouseEvent) => {
         e.stopPropagation();
         if (selectedWork?.images) {
-            setCurrentImageIndex((prev) => (prev + 1) % selectedWork.images.length);
+            setCurrentImageIndex((prev) => (prev + 1) % selectedWork.images!.length);
         }
     };
 
