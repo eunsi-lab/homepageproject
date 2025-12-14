@@ -28,7 +28,7 @@ function App() {
             id: 1,
             title: 'AI Concept Art',
             category: 'Generative AI',
-            color: '#ff0055',
+            color: '#A0C4FF', // Pastel Blue
             image: project1,
             images: [project1, project1_2, project1_3]
         },
@@ -36,7 +36,7 @@ function App() {
             id: 2,
             title: 'Neural Interface',
             category: 'UI/UX Design',
-            color: '#00ccff',
+            color: '#BDB2FF', // Pastel Purple
             image: project2,
             images: [project2, project2_2, project2_3]
         },
@@ -44,7 +44,7 @@ function App() {
             id: 3,
             title: 'Synthetic Landscapes',
             category: '3D Motion',
-            color: '#ffcc00',
+            color: '#FFC6FF', // Pastel Pink
             image: project3,
             images: [project3, project3_2]
         },
@@ -64,104 +64,227 @@ function App() {
         setCurrentImageIndex(0);
     };
 
+    // New Color Palette
+    const colors = {
+        bg: '#FAFAFA',
+        textPrimary: '#333333',
+        textSecondary: '#666666',
+        accent: '#A0C4FF',
+        cardBg: '#FFFFFF',
+        shadow: '0 20px 40px rgba(0,0,0,0.05)',
+    };
+
     return (
-        <div style={{ width: '100%', minHeight: '100vh', padding: '0 2rem' }}>
+        <div style={{
+            width: '100%',
+            minHeight: '100vh',
+            background: colors.bg,
+            color: colors.textPrimary,
+            fontFamily: '"Helvetica Neue", sans-serif',
+            overflowX: 'hidden'
+        }}>
+            <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem' }}>
 
-            {/* Navigation */}
-            <nav style={{ display: 'flex', justifyContent: 'space-between', padding: '2rem 0', alignItems: 'center' }}>
-                <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    style={{ fontSize: '1.5rem', fontWeight: 'bold', fontFamily: 'Orbitron' }}
-                >
-                    EUNSI LAB
-                </motion.div>
-                <div style={{ display: 'flex', gap: '2rem' }}>
-                    {['Work', 'About', 'Contact'].map((item, i) => (
-                        <motion.a
-                            key={item}
-                            href={`#${item.toLowerCase()}`}
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: i * 0.1 }}
-                            style={{ textDecoration: 'none', color: 'inherit', fontSize: '1rem' }}
-                        >
-                            {item}
-                        </motion.a>
-                    ))}
-                </div>
-            </nav>
+                {/* Navigation */}
+                <nav style={{ display: 'flex', justifyContent: 'space-between', padding: '2rem 0', alignItems: 'center' }}>
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        style={{ fontSize: '1.5rem', fontWeight: '800', letterSpacing: '-1px', color: colors.accent }}
+                    >
+                        EUNSI LAB
+                    </motion.div>
+                    <div style={{ display: 'flex', gap: '2rem' }}>
+                        {['Work', 'About', 'Contact'].map((item, i) => (
+                            <motion.a
+                                key={item}
+                                href={`#${item.toLowerCase()}`}
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: i * 0.1 }}
+                                style={{
+                                    textDecoration: 'none',
+                                    color: colors.textSecondary,
+                                    fontSize: '1rem',
+                                    fontWeight: 500,
+                                    transition: 'color 0.2s'
+                                }}
+                                whileHover={{ color: colors.accent }}
+                            >
+                                {item}
+                            </motion.a>
+                        ))}
+                    </div>
+                </nav>
 
-            {/* Hero Section */}
-            <header style={{ height: '80vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                <motion.h1
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                    style={{ fontSize: '5rem', lineHeight: 1.1, margin: 0, background: 'linear-gradient(to right, #fff, #666)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
-                >
-                    DESIGNING <br /> INTELLIGENCE
-                </motion.h1>
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.5, duration: 0.8 }}
-                    style={{ fontSize: '1.2rem', marginTop: '2rem', maxWidth: '600px', color: '#888' }}
-                >
-                    Explorations in finding the ghost in the machine. A portfolio of generative art, UI interactions, and AI-driven experiences.
-                </motion.p>
-            </header>
+                {/* Hero Section */}
+                <header style={{ height: '80vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start' }}>
+                    <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: '100px' }}
+                        transition={{ duration: 1 }}
+                        style={{ height: '4px', background: colors.accent, marginBottom: '2rem', borderRadius: '2px' }}
+                    />
+                    <motion.h1
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        style={{
+                            fontSize: '5rem',
+                            lineHeight: 1.1,
+                            margin: 0,
+                            fontWeight: 800,
+                            color: colors.textPrimary,
+                            letterSpacing: '-2px'
+                        }}
+                    >
+                        DESIGNING <br />
+                        <span style={{ color: colors.accent }}>INTELLIGENCE</span>
+                    </motion.h1>
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.5, duration: 0.8 }}
+                        style={{ fontSize: '1.2rem', marginTop: '2rem', maxWidth: '500px', color: colors.textSecondary, lineHeight: 1.6 }}
+                    >
+                        Bridging human intuition and artificial intelligence.
+                        A portfolio of generative art, UI interactions, and AI-driven experiences.
+                    </motion.p>
+                </header>
 
-            {/* Works Section */}
-            <section id="work" style={{ padding: '0 0 5rem 0' }}>
-                <motion.h2
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    style={{ fontSize: '2rem', marginBottom: '3rem' }}
-                >
-                    SELECTED WORKS
-                </motion.h2>
+                {/* Works Section */}
+                <section id="work" style={{ padding: '0 0 8rem 0' }}>
+                    <motion.h2
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        style={{ fontSize: '2rem', marginBottom: '3rem', fontWeight: 700, letterSpacing: '-1px' }}
+                    >
+                        Selected Works
+                    </motion.h2>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
-                    {works.map((work) => (
-                        <motion.div
-                            key={work.id}
-                            layoutId={`work-${work.id}`}
-                            onClick={() => handleOpenWork(work.id)}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            whileHover={{ scale: 1.02 }}
-                            viewport={{ once: true }}
-                            style={{
-                                height: '400px',
-                                background: '#111',
-                                borderRadius: '16px',
-                                padding: '2rem',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'flex-end',
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '3rem' }}>
+                        {works.map((work) => (
+                            <motion.div
+                                key={work.id}
+                                layoutId={`work-${work.id}`}
+                                onClick={() => handleOpenWork(work.id)}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                whileHover={{ y: -10, boxShadow: '0 30px 60px rgba(0,0,0,0.08)' }}
+                                viewport={{ once: true }}
+                                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                                style={{
+                                    background: colors.cardBg,
+                                    borderRadius: '24px',
+                                    padding: '1.5rem',
+                                    cursor: 'pointer',
+                                    boxShadow: colors.shadow,
+                                    border: '1px solid rgba(0,0,0,0.02)',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: '1.5rem'
+                                }}
+                            >
+                                <div style={{
+                                    height: '280px',
+                                    borderRadius: '20px',
+                                    overflow: 'hidden',
+                                    position: 'relative',
+                                    background: work.image ? '#f0f0f0' : `linear-gradient(135deg, ${work.color}11, ${work.color}22)`
+                                }}>
+                                    {work.image && (
+                                        <img
+                                            src={work.image}
+                                            alt={work.title}
+                                            style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s' }}
+                                        />
+                                    )}
+                                </div>
+                                <div>
+                                    <h3 style={{ margin: 0, fontSize: '1.4rem', fontWeight: 700, color: colors.textPrimary }}>{work.title}</h3>
+                                    <p style={{ margin: '0.5rem 0 0 0', color: colors.accent, fontWeight: 600, fontSize: '0.9rem' }}>{work.category}</p>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </section>
+
+                {/* About Section */}
+                <section id="about" style={{ padding: '4rem 0 8rem 0', display: 'flex', flexDirection: 'column', gap: '2rem', alignItems: 'center', textAlign: 'center' }}>
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        style={{ maxWidth: '700px' }}
+                    >
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '2rem', fontWeight: 700 }}>
+                            More Than Just Pixels
+                        </h2>
+                        <p style={{ fontSize: '1.1rem', color: colors.textSecondary, lineHeight: 1.8, marginBottom: '2rem' }}>
+                            I am a creative technologist exploring the intersection of design and machine agency.
+                            My work is characterized by a minimalist aesthetic powered by complex neural networks.
+                        </p>
+                        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+                            {['Generative AI', 'UI/UX Strategy', 'React/Three.js', 'Prototyping'].map(skill => (
+                                <span key={skill} style={{
+                                    background: '#F0F4FF',
+                                    padding: '0.8rem 1.5rem',
+                                    borderRadius: '30px',
+                                    fontSize: '0.9rem',
+                                    color: colors.textPrimary,
+                                    fontWeight: 600
+                                }}>
+                                    {skill}
+                                </span>
+                            ))}
+                        </div>
+                    </motion.div>
+                </section>
+
+                {/* Contact Section */}
+                <section id="contact" style={{ padding: '0 0 6rem 0', textAlign: 'center' }}>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        style={{
+                            background: '#F0F4FF',
+                            padding: '4rem 2rem',
+                            borderRadius: '32px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            gap: '2rem'
+                        }}
+                    >
+                        <h2 style={{ fontSize: '2.5rem', margin: 0, fontWeight: 700, color: colors.textPrimary }}>Ready to Collaborate?</h2>
+                        <p style={{ fontSize: '1.1rem', color: colors.textSecondary, maxWidth: '500px', margin: 0 }}>
+                            Let's map the future of interaction together.
+                        </p>
+                        <a href="mailto:qazplm5996@gmail.com" style={{ textDecoration: 'none' }}>
+                            <button style={{
+                                fontSize: '1.1rem',
+                                padding: '1rem 2.5rem',
+                                borderRadius: '50px',
+                                background: colors.accent,
+                                color: '#fff',
+                                fontWeight: 'bold',
+                                border: 'none',
                                 cursor: 'pointer',
-                                border: '1px solid #222',
-                                position: 'relative',
-                                overflow: 'hidden'
-                            }}
-                        >
-                            <div style={{
-                                position: 'absolute',
-                                top: 0, left: 0, right: 0, bottom: 0,
-                                background: work.image
-                                    ? `linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%), url(${work.image}) center/cover no-repeat`
-                                    : `radial-gradient(circle at top right, ${work.color}22, transparent 60%)`,
-                                zIndex: 0,
-                                opacity: work.image ? 0.8 : 1
-                            }} />
-                            <h3 style={{ margin: 0, zIndex: 1, fontSize: '1.5rem', textShadow: work.image ? '0 2px 4px rgba(0,0,0,0.5)' : 'none' }}>{work.title}</h3>
-                            <p style={{ margin: '0.5rem 0 0 0', color: work.image ? '#ddd' : '#666', zIndex: 1 }}>{work.category}</p>
-                        </motion.div>
-                    ))}
-                </div>
-            </section>
+                                boxShadow: '0 10px 20px rgba(160, 196, 255, 0.4)',
+                                transition: 'transform 0.2s'
+                            }}>
+                                qazplm5996@gmail.com
+                            </button>
+                        </a>
+                    </motion.div>
+
+                    <div style={{ marginTop: '4rem', color: '#999', fontSize: '0.9rem' }}>
+                        <p>© 2025 Eunsi Lab. Built with React & AI.</p>
+                    </div>
+                </section>
+            </div>
 
             {/* Lightbox Modal */}
             <AnimatePresence>
@@ -174,7 +297,8 @@ function App() {
                         style={{
                             position: 'fixed',
                             top: 0, left: 0, right: 0, bottom: 0,
-                            background: 'rgba(0,0,0,0.9)',
+                            background: 'rgba(255,255,255,0.85)',
+                            backdropFilter: 'blur(10px)',
                             zIndex: 1000,
                             display: 'flex',
                             justifyContent: 'center',
@@ -186,15 +310,16 @@ function App() {
                             layoutId={`work-${activeWork}`}
                             onClick={(e) => e.stopPropagation()}
                             style={{
-                                background: '#111',
+                                background: '#fff',
                                 width: '100%',
                                 maxWidth: '1000px',
                                 maxHeight: '90vh',
-                                borderRadius: '24px',
+                                borderRadius: '32px',
                                 overflow: 'hidden',
                                 position: 'relative',
                                 display: 'flex',
-                                flexDirection: 'column'
+                                flexDirection: 'column',
+                                boxShadow: '0 30px 60px rgba(0,0,0,0.1)'
                             }}
                         >
                             <button
@@ -203,9 +328,9 @@ function App() {
                                     position: 'absolute',
                                     top: '20px',
                                     right: '20px',
-                                    background: 'rgba(255,255,255,0.2)',
+                                    background: 'rgba(255,255,255,0.9)',
                                     border: 'none',
-                                    color: 'white',
+                                    color: '#333',
                                     width: '40px',
                                     height: '40px',
                                     borderRadius: '50%',
@@ -214,19 +339,20 @@ function App() {
                                     fontSize: '1.5rem',
                                     display: 'flex',
                                     alignItems: 'center',
-                                    justifyContent: 'center'
+                                    justifyContent: 'center',
+                                    boxShadow: '0 5px 15px rgba(0,0,0,0.1)'
                                 }}
                             >
                                 ×
                             </button>
 
-                            <div style={{ flex: 1, minHeight: '400px', position: 'relative' }}>
+                            <div style={{ flex: 1, minHeight: '500px', position: 'relative', background: '#f5f5f5' }}>
                                 {selectedWork.images ? (
                                     <>
                                         <img
                                             src={selectedWork.images[currentImageIndex]}
                                             alt={selectedWork.title}
-                                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                                         />
                                         <button
                                             onClick={handleNextImage}
@@ -235,9 +361,9 @@ function App() {
                                                 top: '50%',
                                                 right: '20px',
                                                 transform: 'translateY(-50%)',
-                                                background: 'rgba(0,0,0,0.5)',
-                                                border: '1px solid rgba(255,255,255,0.2)',
-                                                color: 'white',
+                                                background: 'rgba(255,255,255,0.8)',
+                                                border: 'none',
+                                                color: '#333',
                                                 width: '50px',
                                                 height: '50px',
                                                 borderRadius: '50%',
@@ -247,7 +373,7 @@ function App() {
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
-                                                backdropFilter: 'blur(5px)'
+                                                boxShadow: '0 5px 15px rgba(0,0,0,0.1)'
                                             }}
                                         >
                                             &gt;
@@ -256,11 +382,13 @@ function App() {
                                             position: 'absolute',
                                             bottom: '20px',
                                             right: '20px',
-                                            background: 'rgba(0,0,0,0.6)',
-                                            padding: '0.2rem 0.8rem',
+                                            background: 'rgba(255,255,255,0.8)',
+                                            padding: '0.4rem 1rem',
                                             borderRadius: '20px',
-                                            color: '#fff',
-                                            fontSize: '0.9rem'
+                                            color: '#333',
+                                            fontSize: '0.9rem',
+                                            fontWeight: 600,
+                                            boxShadow: '0 5px 15px rgba(0,0,0,0.05)'
                                         }}>
                                             {currentImageIndex + 1} / {selectedWork.images.length}
                                         </div>
@@ -280,77 +408,14 @@ function App() {
                                 )}
                             </div>
 
-                            <div style={{ padding: '2rem' }}>
-                                <h2 style={{ fontSize: '2.5rem', margin: '0 0 0.5rem 0' }}>{selectedWork.title}</h2>
-                                <p style={{ fontSize: '1.2rem', color: '#888', margin: 0 }}>{selectedWork.category}</p>
+                            <div style={{ padding: '2.5rem' }}>
+                                <h2 style={{ fontSize: '2.5rem', margin: '0 0 0.5rem 0', color: colors.textPrimary, fontWeight: 700 }}>{selectedWork.title}</h2>
+                                <p style={{ fontSize: '1.2rem', color: colors.accent, margin: 0, fontWeight: 500 }}>{selectedWork.category}</p>
                             </div>
                         </motion.div>
                     </motion.div>
                 )}
             </AnimatePresence>
-
-            {/* Footer */}
-            {/* About Section */}
-            <section id="about" style={{ padding: '8rem 0', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem', alignItems: 'center' }}>
-                <motion.div
-                    initial={{ opacity: 0, x: -50 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                >
-                    <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem', lineHeight: 1.2 }}>
-                        MORE THAN <br /> JUST PIXELS.
-                    </h2>
-                    <div style={{ width: '50px', height: '4px', background: '#646cff', marginBottom: '2rem' }}></div>
-                </motion.div>
-
-                <motion.div
-                    initial={{ opacity: 0, x: 50 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    style={{ fontSize: '1.1rem', color: '#aaa', lineHeight: 1.6 }}
-                >
-                    <p style={{ marginBottom: '1.5rem' }}>
-                        I am a creative technologist bridging the gap between human intuition and artificial intelligence. My work explores how generative algorithms can amplify design intent, creating interfaces that feel alive.
-                    </p>
-                    <p>
-                        With a background in traditional UI/UX and a passion for neural networks, I build digital experiences that are not just functional, but adaptive and surprising.
-                    </p>
-
-                    <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
-                        {['Generative AI', 'UI/UX Strategy', 'React/Three.js', 'Prototyping'].map(skill => (
-                            <span key={skill} style={{ border: '1px solid #333', padding: '0.5rem 1rem', borderRadius: '50px', fontSize: '0.9rem', color: '#fff' }}>
-                                {skill}
-                            </span>
-                        ))}
-                    </div>
-                </motion.div>
-            </section>
-
-            {/* Contact Section */}
-            <section id="contact" style={{ padding: '8rem 0 4rem 0', textAlign: 'center' }}>
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                >
-                    <h2 style={{ fontSize: '3rem', marginBottom: '1rem' }}>READY TO COLLABORATE?</h2>
-                    <p style={{ fontSize: '1.2rem', color: '#888', marginBottom: '3rem' }}>
-                        Let's build the future of interaction together.
-                    </p>
-
-                    <a href="mailto:qazplm5996@gmail.com" style={{ textDecoration: 'none' }}>
-                        <button style={{ fontSize: '1.2rem', padding: '1rem 3rem', borderRadius: '50px', background: '#fff', color: '#000', fontWeight: 'bold' }}>
-                            qazplm5996@gmail.com
-                        </button>
-                    </a>
-                </motion.div>
-
-                {/* Footer Content moved inside Contact */}
-                <div style={{ marginTop: '5rem', borderTop: '1px solid #222', paddingTop: '2rem', color: '#444' }}>
-                    <p>© 2025 Eunsi Lab. Built with React & AI.</p>
-                </div>
-            </section>
-
         </div>
     )
 }
