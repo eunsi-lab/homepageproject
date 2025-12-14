@@ -295,7 +295,7 @@ function App() {
                         <p style={{ color: '#888', fontSize: '1.1rem' }}>Selected projects & experiments</p>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '3rem', position: 'relative', zIndex: 2 }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem', position: 'relative', zIndex: 2 }}>
                         {works.map((work, index) => (
                             <motion.div
                                 key={work.id}
