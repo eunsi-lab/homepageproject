@@ -33,22 +33,6 @@ function App() {
             images: [project1, project1_2, project1_3]
         },
         {
-            id: 2,
-            title: 'Neural Interface',
-            category: 'UI/UX Design',
-            color: '#BDB2FF', // Pastel Purple
-            image: project2,
-            images: [project2, project2_2, project2_3]
-        },
-        {
-            id: 3,
-            title: 'Synthetic Landscapes',
-            category: '3D Motion',
-            color: '#FFC6FF', // Pastel Pink
-            image: project3,
-            images: [project3, project3_2]
-        },
-        {
             id: 4,
             title: 'Smart Home Hub',
             category: 'Product Design',
@@ -65,6 +49,22 @@ function App() {
             title: 'Brand Identity',
             category: 'Visual Design',
             color: '#FFC6FF',
+        },
+        {
+            id: 2,
+            title: 'Neural Interface',
+            category: 'UI/UX Design',
+            color: '#BDB2FF', // Pastel Purple
+            image: project2,
+            images: [project2, project2_2, project2_3]
+        },
+        {
+            id: 3,
+            title: 'Synthetic Landscapes',
+            category: '3D Motion',
+            color: '#FFC6FF', // Pastel Pink
+            image: project3,
+            images: [project3, project3_2]
         },
     ];
 
