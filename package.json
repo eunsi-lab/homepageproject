@@ -2,7 +2,7 @@
   "name": "myportpolio",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://eunsi-lab.github.io/PORTFOLIO",
+  "homepage": "https://eunsi-lab.github.io/homepageproject",
   "type": "module",
   "scripts": {
     "dev": "vite",

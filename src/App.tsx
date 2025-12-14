@@ -1,11 +1,13 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 
+import project1 from './assets/project1.png';
+
 function App() {
     const [activeWork, setActiveWork] = useState<number | null>(null);
 
     const works = [
-        { id: 1, title: 'AI Concept Art', category: 'Generative AI', color: '#ff0055' },
+        { id: 1, title: 'AI Concept Art', category: 'Generative AI', color: '#ff0055', image: project1 },
         { id: 2, title: 'Neural Interface', category: 'UI/UX Design', color: '#00ccff' },
         { id: 3, title: 'Synthetic Landscapes', category: '3D Motion', color: '#ffcc00' },
     ];
@@ -96,11 +98,14 @@ function App() {
                             <div style={{
                                 position: 'absolute',
                                 top: 0, left: 0, right: 0, bottom: 0,
-                                background: `radial-gradient(circle at top right, ${work.color}22, transparent 60%)`,
-                                zIndex: 0
+                                background: work.image
+                                    ? `linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%), url(${work.image}) center/cover no-repeat`
+                                    : `radial-gradient(circle at top right, ${work.color}22, transparent 60%)`,
+                                zIndex: 0,
+                                opacity: work.image ? 0.8 : 1
                             }} />
-                            <h3 style={{ margin: 0, zIndex: 1, fontSize: '1.5rem' }}>{work.title}</h3>
-                            <p style={{ margin: '0.5rem 0 0 0', color: '#666', zIndex: 1 }}>{work.category}</p>
+                            <h3 style={{ margin: 0, zIndex: 1, fontSize: '1.5rem', textShadow: work.image ? '0 2px 4px rgba(0,0,0,0.5)' : 'none' }}>{work.title}</h3>
+                            <p style={{ margin: '0.5rem 0 0 0', color: work.image ? '#ddd' : '#666', zIndex: 1 }}>{work.category}</p>
                         </motion.div>
                     ))}
                 </div>
