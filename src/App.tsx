@@ -281,14 +281,18 @@ function App() {
 
                 {/* Works Section with New Background Bubbles */}
                 <section id="work" style={{ padding: '2rem 3rem 10rem 3rem', position: 'relative' }}>
-                    {/* Background decorations for Works section */}
-                    <FloatingBubble size="200px" color="rgba(160, 196, 255, 0.3)" top="10%" left="-5%" delay={1} duration={15} />
-                    <FloatingBubble size="300px" color="rgba(255, 198, 255, 0.2)" top="40%" left="90%" delay={3} duration={18} />
-                    <FloatingBubble size="150px" color="rgba(189, 178, 255, 0.3)" top="80%" left="5%" delay={2} duration={14} />
-                    {/* Extra bubbles for variety in sizes */}
-                    <FloatingBubble size="80px" color="rgba(255, 198, 255, 0.25)" top="20%" left="50%" delay={4} duration={12} />
-                    <FloatingBubble size="50px" color="rgba(160, 196, 255, 0.3)" top="70%" left="20%" delay={0} duration={10} />
+                    {/* Richer Background decorations for Works section */}
+                    <FloatingBubble size="300px" color="rgba(160, 196, 255, 0.25)" top="5%" left="-10%" delay={0} duration={20} />
+                    <FloatingBubble size="400px" color="rgba(255, 198, 255, 0.2)" top="30%" left="85%" delay={5} duration={25} />
+                    <FloatingBubble size="250px" color="rgba(189, 178, 255, 0.25)" top="60%" left="5%" delay={2} duration={18} />
 
+                    {/* Small playful accents */}
+                    <FloatingBubble size="60px" color="#FFC6FF" top="15%" left="20%" delay={1} duration={12} />
+                    <FloatingBubble size="40px" color="#A0C4FF" top="25%" left="70%" delay={3} duration={15} />
+                    <FloatingBubble size="80px" color="#BDB2FF" top="45%" left="10%" delay={2} duration={14} />
+                    <FloatingBubble size="50px" color="#FFC6FF" top="75%" left="80%" delay={4} duration={16} />
+                    <FloatingBubble size="30px" color="#A0C4FF" top="85%" left="30%" delay={0} duration={10} />
+                    <FloatingBubble size="120px" color="rgba(255,255,255,0.6)" top="50%" left="50%" delay={6} duration={20} />
 
                     <div style={{ textAlign: 'center', marginBottom: '5rem', position: 'relative', zIndex: 2 }}>
                         <h2 style={{ fontSize: '3rem', fontWeight: 800, marginBottom: '1rem', letterSpacing: '-1px' }}>Playground</h2>
