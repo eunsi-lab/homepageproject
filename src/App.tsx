@@ -29,6 +29,36 @@ interface Work {
     images?: string[];
 }
 
+// Floating Bubble Component
+const FloatingBubble = ({ size, color, top, left, delay, duration }: any) => (
+    <motion.div
+        animate={{
+            y: [0, -30, 0],
+            x: [0, 15, 0],
+            scale: [1, 1.1, 1]
+        }}
+        transition={{
+            duration: duration,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: delay
+        }}
+        style={{
+            position: 'absolute',
+            top: top,
+            left: left,
+            width: size,
+            height: size,
+            borderRadius: '50%',
+            background: color,
+            opacity: 0.6,
+            filter: 'blur(8px)',
+            zIndex: 0,
+            pointerEvents: 'none'
+        }}
+    />
+);
+
 function App() {
     const [activeWork, setActiveWork] = useState<number | null>(null);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -36,7 +66,7 @@ function App() {
     // Dynamic Font Loading
     useEffect(() => {
         const link = document.createElement('link');
-        link.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap';
+        link.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap';
         link.rel = 'stylesheet';
         document.head.appendChild(link);
     }, []);
@@ -109,57 +139,40 @@ function App() {
     return (
         <div style={{
             fontFamily: "'Poppins', sans-serif",
-            backgroundColor: '#FAFAFA',
+            backgroundColor: '#fff',
             minHeight: '100vh',
             color: '#333',
-            overflowX: 'hidden',
+            overflowX: 'hidden', // Prevent horizontal scroll
             position: 'relative'
         }}>
-            {/* Background Decorations */}
-            <div style={{
-                position: 'fixed',
-                top: '-10%',
-                right: '-5%',
-                width: '600px',
-                height: '600px',
-                background: 'radial-gradient(circle, rgba(160, 196, 255, 0.2) 0%, rgba(255,255,255,0) 70%)',
-                borderRadius: '50%',
-                filter: 'blur(40px)',
-                zIndex: 0,
-                pointerEvents: 'none'
-            }} />
-            <div style={{
-                position: 'fixed',
-                bottom: '10%',
-                left: '-10%',
-                width: '500px',
-                height: '500px',
-                background: 'radial-gradient(circle, rgba(255, 198, 255, 0.15) 0%, rgba(255,255,255,0) 70%)',
-                borderRadius: '50%',
-                filter: 'blur(40px)',
-                zIndex: 0,
-                pointerEvents: 'none'
-            }} />
+
+            {/* --- Global Background Decorations --- */}
+            <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 0, pointerEvents: 'none', overflow: 'hidden' }}>
+                <FloatingBubble size="300px" color="rgba(160, 196, 255, 0.2)" top="-10%" left="60%" delay={0} duration={8} />
+                <FloatingBubble size="400px" color="rgba(189, 178, 255, 0.2)" top="40%" left="-10%" delay={2} duration={12} />
+                <FloatingBubble size="200px" color="rgba(255, 198, 255, 0.3)" top="80%" left="80%" delay={1} duration={10} />
+            </div>
 
             {/* Navigation */}
             <nav style={{
-                padding: '2rem 4rem',
+                padding: '1.5rem 4rem',
                 display: 'flex',
-                justifyContent: 'space-between', // Fixed type in original code 'justifyBox' -> 'justifyContent'
+                justifyContent: 'space-between',
                 alignItems: 'center',
                 position: 'fixed',
                 top: 0, left: 0, right: 0,
                 zIndex: 100,
-                backdropFilter: 'blur(10px)',
-                background: 'rgba(255, 255, 255, 0.8)'
+                backdropFilter: 'blur(12px)',
+                background: 'rgba(255, 255, 255, 0.7)',
+                borderBottom: '1px solid rgba(0,0,0,0.05)'
             }}>
-                <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#333', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <span style={{ width: '12px', height: '12px', background: '#A0C4FF', borderRadius: '50%', display: 'inline-block' }}></span>
-                    Minji Kim
+                <div style={{ fontSize: '1.4rem', fontWeight: 700, color: '#333', display: 'flex', alignItems: 'center', gap: '0.5rem', letterSpacing: '-0.5px' }}>
+                    <span style={{ width: '10px', height: '10px', background: '#A0C4FF', borderRadius: '50%' }}></span>
+                    Eunseo Kim
                 </div>
-                <div style={{ display: 'flex', gap: '2rem' }}>
+                <div style={{ display: 'flex', gap: '2.5rem' }}>
                     {['Work', 'About', 'Contact'].map((item) => (
-                        <a key={item} href={`#${item.toLowerCase()}`} style={{ textDecoration: 'none', color: '#666', fontWeight: 500, transition: 'color 0.2s' }}>
+                        <a key={item} href={`#${item.toLowerCase()}`} style={{ textDecoration: 'none', color: '#555', fontWeight: 600, fontSize: '0.95rem', transition: 'color 0.2s' }}>
                             {item}
                         </a>
                     ))}
@@ -168,129 +181,134 @@ function App() {
 
             {/* Hero Section */}
             <header style={{
-                padding: '8rem 4rem 6rem 4rem',
-                background: '#F0F7FF', // Very light blue
-                marginBottom: '4rem',
-                borderRadius: '0 0 60px 60px', // Curved bottom
+                minHeight: '85vh',
+                padding: '8rem 4rem 4rem 4rem',
+                background: 'linear-gradient(180deg, #F0F7FF 0%, #FFFFFF 100%)',
+                borderRadius: '0 0 80px 80px',
                 position: 'relative',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 overflow: 'hidden',
                 zIndex: 1
             }}>
+                {/* Hero Specific Decorations */}
+                <FloatingBubble size="60px" color="#BDB2FF" top="20%" left="15%" delay={0} duration={4} />
+                <FloatingBubble size="40px" color="#FFC6FF" top="25%" left="85%" delay={1} duration={5} />
+                <FloatingBubble size="80px" color="#A0C4FF" top="60%" left="80%" delay={0.5} duration={6} />
+                <FloatingBubble size="25px" color="#BDB2FF" top="70%" left="10%" delay={2} duration={3} />
+                <FloatingBubble size="150px" color="rgba(255,255,255,0.8)" top="10%" left="50%" delay={0} duration={10} /> {/* Subtle white highlight */}
+
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
-                    style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}
+                    style={{ maxWidth: '1000px', textAlign: 'center', position: 'relative', zIndex: 10 }}
                 >
-                    <div style={{
-                        display: 'inline-block',
-                        background: '#fff',
-                        padding: '0.5rem 1.5rem',
-                        borderRadius: '50px',
-                        boxShadow: '0 4px 10px rgba(0,0,0,0.05)',
-                        marginBottom: '2rem',
-                        fontSize: '0.9rem',
-                        fontWeight: 600,
-                        color: '#A0C4FF'
-                    }}>
-                        ✨ Product Designer & AI Artist
-                    </div>
-                    <h1 style={{
-                        fontSize: '4.5rem',
-                        fontWeight: 800,
-                        lineHeight: 1.1,
-                        marginBottom: '1.5rem',
-                        background: 'linear-gradient(135deg, #333 0%, #666 100%)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        letterSpacing: '-1px'
-                    }}>
-                        Crafting Ideas<br />
-                        <span style={{ color: '#A0C4FF', WebkitTextFillColor: '#A0C4FF' }}>Into Reality.</span>
-                    </h1>
-                    <p style={{
-                        fontSize: '1.2rem',
-                        color: '#666',
-                        maxWidth: '600px',
-                        margin: '0 auto 3rem auto',
-                        lineHeight: 1.6
-                    }}>
-                        Blending creative design with artificial intelligence to build immersive and intuitive digital experiences.
-                    </p>
-                    <motion.a
-                        href="#work"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
                         style={{
                             display: 'inline-block',
-                            padding: '1rem 2.5rem',
-                            background: '#A0C4FF',
+                            background: '#fff',
+                            padding: '0.6rem 1.8rem',
+                            borderRadius: '50px',
+                            boxShadow: '0 8px 20px rgba(160, 196, 255, 0.2)',
+                            marginBottom: '2.5rem',
+                            fontSize: '0.95rem',
+                            fontWeight: 700,
+                            color: '#A0C4FF',
+                            letterSpacing: '0.5px'
+                        }}
+                    >
+                        ✨ Creative Technologist
+                    </motion.div>
+
+                    <h1 style={{
+                        fontSize: '5.5rem',
+                        fontWeight: 800,
+                        lineHeight: 1.05,
+                        marginBottom: '2rem',
+                        letterSpacing: '-2.5px',
+                        color: '#222'
+                    }}>
+                        Crafting <span style={{ position: 'relative', display: 'inline-block' }}>
+                            <span style={{ position: 'relative', zIndex: 1, color: '#222' }}>Magic</span>
+                            <span style={{ position: 'absolute', bottom: '15px', left: 0, right: 0, height: '20px', background: '#FFC6FF', borderRadius: '10px', zIndex: 0, opacity: 0.8 }}></span>
+                        </span><br />
+                        with <span style={{ color: '#BDB2FF' }}>Code & Design.</span>
+                    </h1>
+
+                    <p style={{
+                        fontSize: '1.3rem',
+                        color: '#666',
+                        maxWidth: '650px',
+                        margin: '0 auto 3.5rem auto',
+                        lineHeight: 1.7,
+                        fontWeight: 400
+                    }}>
+                        Hi, I'm <b>Eunseo</b>. I build digital experiences that feel alive, intuitive, and just a little bit playful.
+                    </p>
+
+                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                        <a href="#work" style={{
+                            display: 'inline-block',
+                            padding: '1.2rem 3rem',
+                            background: '#333',
                             color: 'white',
                             borderRadius: '50px',
                             textDecoration: 'none',
-                            fontWeight: 600,
-                            boxShadow: '0 10px 20px rgba(160, 196, 255, 0.4)',
-                            transition: 'background 0.3s'
-                        }}
-                    >
-                        Explore My Work
-                    </motion.a>
+                            fontWeight: 700,
+                            fontSize: '1.1rem',
+                            boxShadow: '0 15px 30px rgba(0,0,0,0.15)',
+                        }}>
+                            View Selected Works
+                        </a>
+                    </motion.div>
                 </motion.div>
-
-                {/* Decorative floating shapes in Hero */}
-                <motion.div
-                    animate={{ y: [0, -20, 0] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                    style={{ position: 'absolute', top: '20%', left: '10%', width: '60px', height: '60px', borderRadius: '50%', border: '4px solid #fff', opacity: 0.5 }}
-                />
-                <motion.div
-                    animate={{ y: [0, 30, 0] }}
-                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                    style={{ position: 'absolute', bottom: '20%', right: '15%', width: '40px', height: '40px', borderRadius: '50%', background: '#BDB2FF', opacity: 0.6 }}
-                />
-
             </header>
 
-            <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem', position: 'relative', zIndex: 1 }}>
+            <main style={{ maxWidth: '1300px', margin: '0 auto', padding: '0 2rem', position: 'relative', zIndex: 1 }}>
 
                 {/* Works Section */}
-                <section id="work" style={{ padding: '0 0 8rem 0' }}>
-                    <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-                        <h2 style={{ fontSize: '2.5rem', fontWeight: 700, marginBottom: '1rem' }}>Selected Works</h2>
-                        <div style={{ width: '60px', height: '6px', background: '#A0C4FF', borderRadius: '3px', margin: '0 auto' }}></div>
+                <section id="work" style={{ padding: '2rem 0 10rem 0' }}>
+                    <div style={{ textAlign: 'center', marginBottom: '5rem' }}>
+                        <h2 style={{ fontSize: '3rem', fontWeight: 800, marginBottom: '1rem', letterSpacing: '-1px' }}>Playground</h2>
+                        <p style={{ color: '#888', fontSize: '1.1rem' }}>Selected projects & experiments</p>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2.5rem' }}>
-                        {works.map((work) => (
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '3rem' }}>
+                        {works.map((work, index) => (
                             <motion.div
                                 key={work.id}
                                 layoutId={`work-${work.id}`}
                                 onClick={() => handleOpenWork(work.id)}
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0, y: 50 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                whileHover={{ y: -10 }}
-                                viewport={{ once: true }}
-                                transition={{ type: 'spring', stiffness: 300 }}
+                                viewport={{ once: true, margin: "-50px" }}
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                whileHover={{ y: -15, scale: 1.02 }}
                                 style={{
-                                    height: '420px',
+                                    height: '480px',
                                     background: '#fff',
-                                    borderRadius: '24px',
+                                    borderRadius: '32px',
                                     padding: '1.5rem',
                                     display: 'flex',
                                     flexDirection: 'column',
                                     cursor: 'pointer',
                                     position: 'relative',
-                                    boxShadow: '0 20px 40px rgba(0,0,0,0.03)',
-                                    overflow: 'hidden'
+                                    boxShadow: '0 20px 40px rgba(0,0,0,0.04)',
+                                    border: '1px solid rgba(0,0,0,0.03)'
                                 }}
                             >
                                 <div style={{
                                     flex: 1,
-                                    borderRadius: '16px',
+                                    borderRadius: '24px',
                                     overflow: 'hidden',
                                     marginBottom: '1.5rem',
                                     position: 'relative',
-                                    background: work.image ? 'transparent' : `${work.color}15`
+                                    background: work.image ? '#f8f8f8' : `${work.color}15`
                                 }}>
                                     {work.image ? (
                                         <div style={{
@@ -302,24 +320,33 @@ function App() {
                                             transition: 'transform 0.5s ease'
                                         }} />
                                     ) : (
-                                        <div style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            height: '100%',
-                                            color: work.color,
-                                            fontSize: '3rem',
-                                            opacity: 0.3
-                                        }}>●</div>
+                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+                                            <span style={{ fontSize: '4rem', opacity: 0.2 }}>🎨</span>
+                                        </div>
                                     )}
+                                    {/* Hover Overlay Effect */}
+                                    <div style={{
+                                        position: 'absolute', inset: 0,
+                                        background: 'linear-gradient(to top, rgba(0,0,0,0.1) 0%, transparent 50%)',
+                                        opacity: 0.6
+                                    }} />
                                 </div>
 
-                                <div>
-                                    <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.4rem', fontWeight: 700 }}>{work.title}</h3>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                        <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: work.color }}></span>
-                                        <p style={{ margin: 0, color: '#888', fontSize: '0.95rem', fontWeight: 500 }}>{work.category}</p>
+                                <div style={{ padding: '0 0.5rem' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                                        <span style={{
+                                            background: work.color,
+                                            color: '#fff',
+                                            padding: '0.3rem 0.8rem',
+                                            borderRadius: '20px',
+                                            fontSize: '0.75rem',
+                                            fontWeight: 700,
+                                            textTransform: 'uppercase'
+                                        }}>
+                                            {work.category}
+                                        </span>
                                     </div>
+                                    <h3 style={{ margin: 0, fontSize: '1.6rem', fontWeight: 700, color: '#222' }}>{work.title}</h3>
                                 </div>
                             </motion.div>
                         ))}
@@ -327,29 +354,28 @@ function App() {
                 </section>
 
                 {/* About Section */}
-                <section id="about" style={{ padding: '4rem 0 8rem 0', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }}>
+                <section id="about" style={{ padding: '4rem 0 10rem 0', display: 'grid', gridTemplateColumns: '40% 60%', gap: '5rem', alignItems: 'center' }}>
                     <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0, rotate: -5 }}
+                        whileInView={{ opacity: 1, rotate: 0 }}
                         viewport={{ once: true }}
                         style={{ position: 'relative' }}
                     >
                         <div style={{
                             width: '100%',
-                            height: '500px',
-                            background: '#E6E6FA', // Lavender
-                            borderRadius: '32px',
+                            aspectRatio: '1/1.2',
+                            background: '#E0E7FF',
+                            borderRadius: '40px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             fontSize: '5rem',
-                            color: 'white',
                             position: 'relative',
                             overflow: 'hidden'
                         }}>
-                            {/* Placeholder for Profile Img */}
-                            👱‍♀️
-                            <div style={{ position: 'absolute', bottom: '-20px', right: '-20px', width: '150px', height: '150px', background: '#FFC6FF', borderRadius: '50%', opacity: 0.5 }}></div>
+                            {/* Decorative Blobs behind profile */}
+                            <div style={{ position: 'absolute', top: '-10%', right: '-10%', width: '150px', height: '150px', background: '#FFC6FF', borderRadius: '50%', filter: 'blur(30px)' }}></div>
+                            <div style={{ zIndex: 1 }}>👩‍💻</div>
                         </div>
                     </motion.div>
 
@@ -358,17 +384,23 @@ function App() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                     >
-                        <h2 style={{ fontSize: '2.5rem', fontWeight: 700, marginBottom: '2rem' }}>Designing with<br /><span style={{ color: '#BDB2FF' }}>Empathy & AI</span></h2>
-                        <p style={{ fontSize: '1.1rem', lineHeight: 1.8, color: '#555', marginBottom: '2rem' }}>
-                            Hello! I'm Minji, a product designer who loves exploring the intersection of human creativity and machine intelligence.
-                            I believe technology should be warm, approachable, and delightful to use.
+                        <h2 style={{ fontSize: '3.5rem', fontWeight: 800, marginBottom: '2rem', lineHeight: 1.1 }}>
+                            More than <br /> <span style={{ color: '#A0C4FF' }}>Pixels & Code</span>
+                        </h2>
+                        <p style={{ fontSize: '1.2rem', lineHeight: 1.8, color: '#555', marginBottom: '2rem' }}>
+                            Hello! I'm <b>Eunseo</b>. I'm obsessed with how technology can feel more human.
+                            My work sits at the intersection of product design and creative coding, always aiming to bring a spark of joy to the user.
                         </p>
-                        <p style={{ fontSize: '1.1rem', lineHeight: 1.8, color: '#555' }}>
-                            Based in Seoul, I create digital experiences that not only solve problems but also bring a smile to user's faces.
-                        </p>
-                        <div style={{ marginTop: '3rem', display: 'flex', gap: '1rem' }}>
-                            {['UI/UX', '3D Modeling', 'Generative AI', 'Prototyping'].map(skill => (
-                                <span key={skill} style={{ padding: '0.6rem 1.2rem', background: '#F5F5F5', borderRadius: '30px', fontSize: '0.9rem', fontWeight: 600, color: '#555' }}>{skill}</span>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+                            {['Prototyping', 'Visual Design', 'Creative Coding', 'React', 'Three.js'].map(skill => (
+                                <span key={skill} style={{
+                                    padding: '0.8rem 1.5rem',
+                                    border: '2px solid #eee',
+                                    borderRadius: '50px',
+                                    fontSize: '0.95rem',
+                                    fontWeight: 700,
+                                    color: '#555'
+                                }}>{skill}</span>
                             ))}
                         </div>
                     </motion.div>
@@ -377,42 +409,44 @@ function App() {
                 {/* Contact Section */}
                 <section id="contact" style={{ padding: '4rem 0 8rem 0', textAlign: 'center' }}>
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
+                        whileInView={{ scale: [0.95, 1] }}
+                        transition={{ duration: 0.5 }}
                         viewport={{ once: true }}
                         style={{
-                            background: '#F0F7FF',
-                            borderRadius: '40px',
-                            padding: '4rem 2rem',
+                            background: '#222',
+                            borderRadius: '50px',
+                            padding: '6rem 2rem',
                             position: 'relative',
-                            overflow: 'hidden'
+                            overflow: 'hidden',
+                            color: 'white'
                         }}
                     >
-                        <div style={{ position: 'absolute', top: -50, left: -50, width: '150px', height: '150px', background: '#FFC6FF', borderRadius: '50%', opacity: 0.2 }}></div>
-                        <div style={{ position: 'absolute', bottom: -50, right: -50, width: '200px', height: '200px', background: '#A0C4FF', borderRadius: '50%', opacity: 0.2 }}></div>
+                        {/* Dark Mode Bubbles */}
+                        <div style={{ position: 'absolute', top: -50, left: -50, width: '200px', height: '200px', background: '#A0C4FF', borderRadius: '50%', opacity: 0.2, filter: 'blur(40px)' }}></div>
+                        <div style={{ position: 'absolute', bottom: -50, right: -50, width: '250px', height: '250px', background: '#FFC6FF', borderRadius: '50%', opacity: 0.2, filter: 'blur(40px)' }}></div>
 
-                        <h2 style={{ fontSize: '2.5rem', fontWeight: 700, marginBottom: '1.5rem' }}>Let's Create Something<br />Amazing Together!</h2>
-                        <p style={{ fontSize: '1.2rem', color: '#666', marginBottom: '3rem' }}>Have a project in mind? Just want to say hi? <br />I'd love to hear from you.</p>
-                        <a href="mailto:hello@minji.design" style={{
+                        <h2 style={{ fontSize: '3rem', fontWeight: 800, marginBottom: '1.5rem' }}>Let's make something<br />unforgettable.</h2>
+                        <p style={{ fontSize: '1.3rem', color: '#aaa', marginBottom: '3rem' }}>Open for collaborations and fun projects.</p>
+
+                        <a href="mailto:hello@eunseo.design" style={{
                             display: 'inline-block',
-                            padding: '1.2rem 3.5rem',
-                            background: '#333',
-                            color: 'white',
+                            padding: '1.5rem 4rem',
+                            background: 'white',
+                            color: '#222',
                             borderRadius: '50px',
                             textDecoration: 'none',
-                            fontWeight: 600,
-                            fontSize: '1.1rem',
-                            boxShadow: '0 10px 20px rgba(0,0,0,0.1)',
+                            fontWeight: 800,
+                            fontSize: '1.2rem',
                             transition: 'transform 0.2s',
                             cursor: 'pointer'
                         }}>
-                            Get in Touch
+                            Say Hello 👋
                         </a>
                     </motion.div>
                 </section>
 
-                <footer style={{ padding: '2rem 0', borderTop: '1px solid #eee', textAlign: 'center', color: '#999', fontSize: '0.9rem' }}>
-                    © 2024 Minji Kim. All Rights Reserved.
+                <footer style={{ padding: '3rem 0', borderTop: '1px solid #f0f0f0', textAlign: 'center', color: '#bbb', fontSize: '0.9rem', fontWeight: 500 }}>
+                    © 2024 Eunseo Kim. Crafted with 💜.
                 </footer>
             </main>
 
@@ -421,28 +455,31 @@ function App() {
                 {selectedWork && (
                     <motion.div
                         layoutId={`work-${selectedWork.id}`}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
                         style={{
                             position: 'fixed',
                             top: 0, left: 0, right: 0, bottom: 0,
-                            background: 'rgba(255, 255, 255, 0.95)',
-                            backdropFilter: 'blur(10px)',
-                            zIndex: 200,
-                            padding: '2rem',
+                            background: 'rgba(255, 255, 255, 0.98)',
+                            zIndex: 2000,
+                            padding: '1rem',
                             display: 'flex',
-                            flexDirection: 'column',
-                            overflowY: 'auto'
+                            justifyContent: 'center',
+                            alignItems: 'center',
                         }}
                     >
                         <motion.button
                             onClick={(e) => { e.stopPropagation(); setActiveWork(null); }}
+                            whileHover={{ scale: 1.1, rotate: 90 }}
                             style={{
                                 position: 'absolute',
-                                top: '2rem',
-                                right: '2rem',
-                                background: '#f5f5f5',
+                                top: '30px',
+                                right: '30px',
+                                background: '#f0f0f0',
                                 border: 'none',
-                                width: '40px',
-                                height: '40px',
+                                width: '50px',
+                                height: '50px',
                                 borderRadius: '50%',
                                 fontSize: '1.5rem',
                                 cursor: 'pointer',
@@ -452,16 +489,18 @@ function App() {
                                 justifyContent: 'center',
                                 zIndex: 201
                             }}
-                            whileHover={{ scale: 1.1, background: '#eee' }}
                         >
                             ×
                         </motion.button>
 
-                        <div style={{ maxWidth: '1000px', margin: '2rem auto', width: '100%', flex: 1 }}>
+                        <div style={{ width: '100%', maxWidth: '1100px', height: '90vh', display: 'flex', flexDirection: 'column', overflowY: 'auto', padding: '1rem' }}>
                             <div style={{
-                                borderRadius: '24px',
+                                flex: '0 0 auto',
+                                width: '100%',
+                                height: '60vh',
+                                borderRadius: '32px',
                                 overflow: 'hidden',
-                                boxShadow: '0 30px 60px rgba(0,0,0,0.1)',
+                                boxShadow: '0 20px 60px rgba(0,0,0,0.1)',
                                 marginBottom: '2rem',
                                 position: 'relative',
                                 background: '#fff'
@@ -475,14 +514,14 @@ function App() {
                                             top: '50%',
                                             right: '20px',
                                             transform: 'translateY(-50%)',
-                                            background: 'rgba(255,255,255,0.7)',
+                                            background: 'rgba(255,255,255,0.9)',
                                             border: 'none',
                                             borderRadius: '50%',
-                                            width: '50px',
-                                            height: '50px',
+                                            width: '60px',
+                                            height: '60px',
                                             fontSize: '1.5rem',
                                             cursor: 'pointer',
-                                            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                                            boxShadow: '0 8px 20px rgba(0,0,0,0.1)',
                                             zIndex: 10,
                                             display: 'flex',
                                             alignItems: 'center',
@@ -502,10 +541,10 @@ function App() {
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         transition={{ duration: 0.3 }}
-                                        style={{ width: '100%', height: 'auto', display: 'block' }}
+                                        style={{ width: '100%', height: '100%', objectFit: 'contain', background: '#f9f9f9' }}
                                     />
                                 ) : (
-                                    <div style={{ height: '500px', background: `${selectedWork.color}20`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: selectedWork.color }}>
+                                    <div style={{ width: '100%', height: '100%', background: `${selectedWork.color}20`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: selectedWork.color }}>
                                         <span>No Image Available</span>
                                     </div>
                                 )}
@@ -514,14 +553,15 @@ function App() {
                                 {selectedWork.images && selectedWork.images.length > 1 && (
                                     <div style={{
                                         position: 'absolute',
-                                        bottom: '20px',
-                                        right: '20px',
-                                        background: 'rgba(0,0,0,0.6)',
-                                        color: 'white',
-                                        padding: '5px 12px',
-                                        borderRadius: '20px',
+                                        bottom: '30px',
+                                        right: '30px',
+                                        background: 'rgba(255,255,255,0.9)',
+                                        color: '#333',
+                                        padding: '8px 16px',
+                                        borderRadius: '30px',
                                         fontSize: '0.9rem',
-                                        fontWeight: 500
+                                        fontWeight: 700,
+                                        boxShadow: '0 4px 10px rgba(0,0,0,0.1)'
                                     }}>
                                         {currentImageIndex + 1} / {selectedWork.images.length}
                                     </div>
@@ -532,23 +572,26 @@ function App() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.2 }}
+                                style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}
                             >
                                 <span style={{
                                     background: selectedWork.color,
-                                    color: 'white', // White text on color tag
-                                    padding: '0.4rem 1rem',
+                                    color: '#fff',
+                                    padding: '0.5rem 1.2rem',
                                     borderRadius: '50px',
                                     fontSize: '0.9rem',
-                                    fontWeight: 600,
-                                    letterSpacing: '0.5px',
-                                    textTransform: 'uppercase'
+                                    fontWeight: 700,
+                                    letterSpacing: '1px',
+                                    textTransform: 'uppercase',
+                                    display: 'inline-block',
+                                    marginBottom: '1rem'
                                 }}>
                                     {selectedWork.category}
                                 </span>
-                                <h2 style={{ fontSize: '3rem', fontWeight: 800, margin: '1rem 0', color: '#333' }}>{selectedWork.title}</h2>
-                                <p style={{ fontSize: '1.1rem', lineHeight: 1.8, color: '#555' }}>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                <h2 style={{ fontSize: '3.5rem', fontWeight: 800, margin: '0 0 1.5rem 0', color: '#222', lineHeight: 1.1 }}>{selectedWork.title}</h2>
+                                <p style={{ fontSize: '1.2rem', lineHeight: 1.7, color: '#555' }}>
+                                    This project explores the relationship between digital interfaces and human perception.
+                                    Designed with a focus on usability and aesthetic pleasure.
                                 </p>
                             </motion.div>
                         </div>
