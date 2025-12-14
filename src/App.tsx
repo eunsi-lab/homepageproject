@@ -26,6 +26,10 @@ import project4 from './assets/project4.jpg';
 import project4_2 from './assets/project4_2.jpg';
 import project4_3 from './assets/project4_3.jpg';
 
+import project5 from './assets/project5.jpg';
+import project5_2 from './assets/project5_2.jpg';
+import project5_3 from './assets/project5_3.jpg';
+
 function App() {
     const [activeWork, setActiveWork] = useState<number | null>(null);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -52,6 +56,8 @@ function App() {
             title: 'VR Experience',
             category: 'Immersive Tech',
             color: '#BDB2FF',
+            image: project5,
+            images: [project5, project5_2, project5_3]
         },
         {
             id: 6,
