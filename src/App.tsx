@@ -19,6 +19,9 @@ interface Work {
     images?: string[];
 }
 
+import project6 from './assets/project6.png';
+import project6_2 from './assets/project6_2.png';
+
 function App() {
     const [activeWork, setActiveWork] = useState<number | null>(null);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -49,6 +52,8 @@ function App() {
             title: 'Brand Identity',
             category: 'Visual Design',
             color: '#FFC6FF',
+            image: project6,
+            images: [project6, project6_2]
         },
         {
             id: 2,
