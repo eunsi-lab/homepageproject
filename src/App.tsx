@@ -2,17 +2,39 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 
 import project1 from './assets/project1.png';
+import project1_2 from './assets/project1_2.png';
+import project1_3 from './assets/project1_3.png';
 
 function App() {
     const [activeWork, setActiveWork] = useState<number | null>(null);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     const works = [
-        { id: 1, title: 'AI Concept Art', category: 'Generative AI', color: '#ff0055', image: project1 },
+        {
+            id: 1,
+            title: 'AI Concept Art',
+            category: 'Generative AI',
+            color: '#ff0055',
+            image: project1,
+            images: [project1, project1_2, project1_3]
+        },
         { id: 2, title: 'Neural Interface', category: 'UI/UX Design', color: '#00ccff' },
         { id: 3, title: 'Synthetic Landscapes', category: '3D Motion', color: '#ffcc00' },
     ];
 
     const selectedWork = works.find(w => w.id === activeWork);
+
+    const handleNextImage = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (selectedWork?.images) {
+            setCurrentImageIndex((prev) => (prev + 1) % selectedWork.images.length);
+        }
+    };
+
+    const handleOpenWork = (id: number) => {
+        setActiveWork(id);
+        setCurrentImageIndex(0);
+    };
 
     return (
         <div style={{ width: '100%', minHeight: '100vh', padding: '0 2rem' }}>
@@ -78,7 +100,7 @@ function App() {
                         <motion.div
                             key={work.id}
                             layoutId={`work-${work.id}`}
-                            onClick={() => setActiveWork(work.id)}
+                            onClick={() => handleOpenWork(work.id)}
                             initial={{ opacity: 0, scale: 0.9 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             whileHover={{ scale: 1.02 }}
