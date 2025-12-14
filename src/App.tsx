@@ -30,7 +30,7 @@ interface Work {
 }
 
 // Optimized Floating Bubble - Organic Natural Movement
-const FloatingBubble = ({ size, color, top, left, delay, duration }: any) => {
+const FloatingBubble = ({ size, color, top, left, delay, duration, opacity = 0.5, blur = '30px' }: any) => {
     // Randomize movement slightly for each instance to feel "natural"
     const randomY = Math.random() * 20 + 20; // 20px to 40px movement
     const randomX = Math.random() * 20 - 10; // -10px to 10px drift
@@ -45,8 +45,8 @@ const FloatingBubble = ({ size, color, top, left, delay, duration }: any) => {
                 height: size,
                 borderRadius: '50%',
                 background: color,
-                opacity: 0.5, // Slightly higher base opacity
-                filter: 'blur(30px)', // High blur for soft look
+                opacity: opacity,
+                filter: `blur(${blur})`,
                 zIndex: 0,
                 pointerEvents: 'none',
                 willChange: 'transform', // Performance optimization
@@ -282,24 +282,24 @@ function App() {
                 {/* Works Section with New Background Bubbles */}
                 <section id="work" style={{ padding: '2rem 3rem 10rem 3rem', position: 'relative' }}>
 
-                    {/* 1. Top Left Large Bubble (User's Red Circle 1) */}
-                    <FloatingBubble size="350px" color="rgba(160, 196, 255, 0.2)" top="-5%" left="-8%" delay={0} duration={18} />
+                    {/* 1. Top Left Large Bubble (User's Red Circle 1) - MORE VISIBLE */}
+                    <FloatingBubble size="350px" color="rgba(160, 196, 255, 0.4)" top="-5%" left="-8%" delay={0} duration={18} opacity={1} blur="20px" />
 
-                    {/* 2. Middle Left Large Bubble (User's Red Circle 2) */}
-                    <FloatingBubble size="400px" color="rgba(255, 198, 255, 0.15)" top="40%" left="-12%" delay={2} duration={22} />
+                    {/* 2. Middle Left Large Bubble (User's Red Circle 2) - MORE VISIBLE */}
+                    <FloatingBubble size="400px" color="rgba(255, 198, 255, 0.35)" top="40%" left="-12%" delay={2} duration={22} opacity={1} blur="20px" />
 
-                    {/* 3. Top Right Medium Bubble (User's Red Circle 3) */}
-                    <FloatingBubble size="300px" color="rgba(189, 178, 255, 0.2)" top="10%" left="88%" delay={1} duration={20} />
+                    {/* 3. Top Right Medium Bubble (User's Red Circle 3) - MORE VISIBLE */}
+                    <FloatingBubble size="300px" color="rgba(189, 178, 255, 0.4)" top="10%" left="88%" delay={1} duration={20} opacity={1} blur="20px" />
 
-                    {/* 4. Bottom Right Small/Medium Bubble (User's Red Circle 4) */}
-                    <FloatingBubble size="180px" color="rgba(160, 196, 255, 0.25)" top="75%" left="85%" delay={3} duration={15} />
+                    {/* 4. Bottom Right Small/Medium Bubble (User's Red Circle 4) - MORE VISIBLE */}
+                    <FloatingBubble size="180px" color="rgba(160, 196, 255, 0.45)" top="75%" left="85%" delay={3} duration={15} opacity={1} blur="15px" />
 
-                    {/* Additional Playful Accents (Tiny dots) */}
-                    <FloatingBubble size="40px" color="#FFC6FF" top="20%" left="15%" delay={1} duration={12} />
-                    <FloatingBubble size="25px" color="#A0C4FF" top="30%" left="80%" delay={4} duration={14} />
-                    <FloatingBubble size="60px" color="#BDB2FF" top="55%" left="12%" delay={2} duration={16} />
-                    <FloatingBubble size="35px" color="#FFC6FF" top="85%" left="90%" delay={0} duration={10} />
-                    <FloatingBubble size="100px" color="rgba(255,255,255,0.7)" top="50%" left="50%" delay={5} duration={25} />
+                    {/* Additional Playful Accents (Tiny dots) - Sharper */}
+                    <FloatingBubble size="40px" color="#FFC6FF" top="20%" left="15%" delay={1} duration={12} opacity={0.8} blur="5px" />
+                    <FloatingBubble size="25px" color="#A0C4FF" top="30%" left="80%" delay={4} duration={14} opacity={0.8} blur="5px" />
+                    <FloatingBubble size="60px" color="#BDB2FF" top="55%" left="12%" delay={2} duration={16} opacity={0.7} blur="10px" />
+                    <FloatingBubble size="35px" color="#FFC6FF" top="85%" left="90%" delay={0} duration={10} opacity={0.8} blur="5px" />
+                    <FloatingBubble size="100px" color="rgba(255,255,255,0.7)" top="50%" left="50%" delay={5} duration={25} opacity={0.5} />
 
                     <div style={{ textAlign: 'center', marginBottom: '5rem', position: 'relative', zIndex: 2 }}>
                         <h2 style={{ fontSize: '3rem', fontWeight: 800, marginBottom: '1rem', letterSpacing: '-1px' }}>Playground</h2>
