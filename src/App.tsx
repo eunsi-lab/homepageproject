@@ -5,11 +5,20 @@ import project1 from './assets/project1.png';
 import project1_2 from './assets/project1_2.png';
 import project1_3 from './assets/project1_3.png';
 
+interface Work {
+    id: number;
+    title: string;
+    category: string;
+    color: string;
+    image?: string;
+    images?: string[];
+}
+
 function App() {
     const [activeWork, setActiveWork] = useState<number | null>(null);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-    const works = [
+    const works: Work[] = [
         {
             id: 1,
             title: 'AI Concept Art',
