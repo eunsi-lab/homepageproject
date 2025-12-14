@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
 import project1 from './assets/project1.png';
 import project1_2 from './assets/project1_2.png';
 import project1_3 from './assets/project1_3.png';
@@ -29,39 +29,50 @@ interface Work {
     images?: string[];
 }
 
-// Floating Bubble Component
-const FloatingBubble = ({ size, color, top, left, delay, duration }: any) => (
-    <motion.div
-        animate={{
-            y: [0, -30, 0],
-            x: [0, 15, 0],
-            scale: [1, 1.1, 1]
-        }}
-        transition={{
-            duration: duration,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: delay
-        }}
-        style={{
-            position: 'absolute',
-            top: top,
-            left: left,
-            width: size,
-            height: size,
-            borderRadius: '50%',
-            background: color,
-            opacity: 0.6,
-            filter: 'blur(8px)',
-            zIndex: 0,
-            pointerEvents: 'none'
-        }}
-    />
-);
+// Floating Bubble Component with Parallax
+const FloatingBubble = ({ size, color, top, left, delay, duration, mouseX, mouseY, factor = 0.05 }: any) => {
+    const x = useTransform(mouseX, [0, window.innerWidth], [0, window.innerWidth * factor]);
+    const y = useTransform(mouseY, [0, window.innerHeight], [0, window.innerHeight * factor]);
+
+    return (
+        <motion.div
+            style={{
+                position: 'absolute',
+                top: top,
+                left: left,
+                width: size,
+                height: size,
+                borderRadius: '50%',
+                background: color,
+                opacity: 0.6,
+                filter: 'blur(8px)',
+                zIndex: 0,
+                pointerEvents: 'none',
+                x: x, // Parallax X
+                y: y, // Parallax Y
+            }}
+            animate={{
+                y: [0, -30, 0], // Combined floating animation
+                x: [0, 15, 0],
+                scale: [1, 1.1, 1]
+            }}
+            transition={{
+                duration: duration,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: delay
+            }}
+        />
+    );
+};
 
 function App() {
     const [activeWork, setActiveWork] = useState<number | null>(null);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+    // Mouse Position State for Parallax
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
 
     // Dynamic Font Loading
     useEffect(() => {
@@ -70,6 +81,11 @@ function App() {
         link.rel = 'stylesheet';
         document.head.appendChild(link);
     }, []);
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        mouseX.set(e.clientX);
+        mouseY.set(e.clientY);
+    };
 
     const works: Work[] = [
         {
@@ -137,20 +153,22 @@ function App() {
     }
 
     return (
-        <div style={{
-            fontFamily: "'Poppins', sans-serif",
-            backgroundColor: '#fff',
-            minHeight: '100vh',
-            color: '#333',
-            overflowX: 'hidden', // Prevent horizontal scroll
-            position: 'relative'
-        }}>
+        <div
+            onMouseMove={handleMouseMove}
+            style={{
+                fontFamily: "'Poppins', sans-serif",
+                backgroundColor: '#fff',
+                minHeight: '100vh',
+                color: '#333',
+                overflowX: 'hidden', // Prevent horizontal scroll
+                position: 'relative'
+            }}>
 
             {/* --- Global Background Decorations --- */}
             <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 0, pointerEvents: 'none', overflow: 'hidden' }}>
-                <FloatingBubble size="300px" color="rgba(160, 196, 255, 0.2)" top="-10%" left="60%" delay={0} duration={8} />
-                <FloatingBubble size="400px" color="rgba(189, 178, 255, 0.2)" top="40%" left="-10%" delay={2} duration={12} />
-                <FloatingBubble size="200px" color="rgba(255, 198, 255, 0.3)" top="80%" left="80%" delay={1} duration={10} />
+                <FloatingBubble size="300px" color="rgba(160, 196, 255, 0.2)" top="-10%" left="60%" delay={0} duration={8} mouseX={mouseX} mouseY={mouseY} factor={-0.02} />
+                <FloatingBubble size="400px" color="rgba(189, 178, 255, 0.2)" top="40%" left="-10%" delay={2} duration={12} mouseX={mouseX} mouseY={mouseY} factor={0.03} />
+                <FloatingBubble size="200px" color="rgba(255, 198, 255, 0.3)" top="80%" left="80%" delay={1} duration={10} mouseX={mouseX} mouseY={mouseY} factor={-0.04} />
             </div>
 
             {/* Navigation */}
@@ -193,11 +211,11 @@ function App() {
                 zIndex: 1
             }}>
                 {/* Hero Specific Decorations */}
-                <FloatingBubble size="60px" color="#BDB2FF" top="20%" left="15%" delay={0} duration={4} />
-                <FloatingBubble size="40px" color="#FFC6FF" top="25%" left="85%" delay={1} duration={5} />
-                <FloatingBubble size="80px" color="#A0C4FF" top="60%" left="80%" delay={0.5} duration={6} />
-                <FloatingBubble size="25px" color="#BDB2FF" top="70%" left="10%" delay={2} duration={3} />
-                <FloatingBubble size="150px" color="rgba(255,255,255,0.8)" top="10%" left="50%" delay={0} duration={10} /> {/* Subtle white highlight */}
+                <FloatingBubble size="60px" color="#BDB2FF" top="20%" left="15%" delay={0} duration={4} mouseX={mouseX} mouseY={mouseY} factor={0.06} />
+                <FloatingBubble size="40px" color="#FFC6FF" top="25%" left="85%" delay={1} duration={5} mouseX={mouseX} mouseY={mouseY} factor={-0.08} />
+                <FloatingBubble size="80px" color="#A0C4FF" top="60%" left="80%" delay={0.5} duration={6} mouseX={mouseX} mouseY={mouseY} factor={0.04} />
+                <FloatingBubble size="25px" color="#BDB2FF" top="70%" left="10%" delay={2} duration={3} mouseX={mouseX} mouseY={mouseY} factor={-0.05} />
+                <FloatingBubble size="150px" color="rgba(255,255,255,0.8)" top="10%" left="50%" delay={0} duration={10} mouseX={mouseX} mouseY={mouseY} factor={0.02} />
 
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
@@ -446,7 +464,7 @@ function App() {
                 </section>
 
                 <footer style={{ padding: '3rem 0', borderTop: '1px solid #f0f0f0', textAlign: 'center', color: '#bbb', fontSize: '0.9rem', fontWeight: 500 }}>
-                    © 2024 Eunseo Kim. Crafted with 💜.
+                    © 2025 Eunseo Kim. Crafted with 💜.
                 </footer>
             </main>
 
