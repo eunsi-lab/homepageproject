@@ -22,6 +22,10 @@ interface Work {
 import project6 from './assets/project6.png';
 import project6_2 from './assets/project6_2.png';
 
+import project4 from './assets/project4.jpg';
+import project4_2 from './assets/project4_2.jpg';
+import project4_3 from './assets/project4_3.jpg';
+
 function App() {
     const [activeWork, setActiveWork] = useState<number | null>(null);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -40,6 +44,8 @@ function App() {
             title: 'Smart Home Hub',
             category: 'Product Design',
             color: '#A0C4FF',
+            image: project4,
+            images: [project4, project4_2, project4_3]
         },
         {
             id: 5,
