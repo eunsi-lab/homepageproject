@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 
 import project1 from './assets/project1.png';
@@ -11,6 +11,8 @@ function App() {
         { id: 2, title: 'Neural Interface', category: 'UI/UX Design', color: '#00ccff' },
         { id: 3, title: 'Synthetic Landscapes', category: '3D Motion', color: '#ffcc00' },
     ];
+
+    const selectedWork = works.find(w => w.id === activeWork);
 
     return (
         <div style={{ width: '100%', minHeight: '100vh', padding: '0 2rem' }}>
@@ -76,7 +78,7 @@ function App() {
                         <motion.div
                             key={work.id}
                             layoutId={`work-${work.id}`}
-                            onClick={() => setActiveWork(activeWork === work.id ? null : work.id)}
+                            onClick={() => setActiveWork(work.id)}
                             initial={{ opacity: 0, scale: 0.9 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             whileHover={{ scale: 1.02 }}
@@ -110,6 +112,88 @@ function App() {
                     ))}
                 </div>
             </section>
+
+            {/* Lightbox Modal */}
+            <AnimatePresence>
+                {activeWork && selectedWork && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setActiveWork(null)}
+                        style={{
+                            position: 'fixed',
+                            top: 0, left: 0, right: 0, bottom: 0,
+                            background: 'rgba(0,0,0,0.9)',
+                            zIndex: 1000,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            padding: '2rem'
+                        }}
+                    >
+                        <motion.div
+                            layoutId={`work-${activeWork}`}
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                background: '#111',
+                                width: '100%',
+                                maxWidth: '1000px',
+                                maxHeight: '90vh',
+                                borderRadius: '24px',
+                                overflow: 'hidden',
+                                position: 'relative',
+                                display: 'flex',
+                                flexDirection: 'column'
+                            }}
+                        >
+                            <button
+                                onClick={() => setActiveWork(null)}
+                                style={{
+                                    position: 'absolute',
+                                    top: '20px',
+                                    right: '20px',
+                                    background: 'rgba(255,255,255,0.2)',
+                                    border: 'none',
+                                    color: 'white',
+                                    width: '40px',
+                                    height: '40px',
+                                    borderRadius: '50%',
+                                    cursor: 'pointer',
+                                    zIndex: 10,
+                                    fontSize: '1.5rem',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
+                            >
+                                ×
+                            </button>
+
+                            <div style={{ flex: 1, minHeight: '400px', position: 'relative' }}>
+                                {selectedWork.image ? (
+                                    <img
+                                        src={selectedWork.image}
+                                        alt={selectedWork.title}
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    />
+                                ) : (
+                                    <div style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        background: `radial-gradient(circle at top right, ${selectedWork.color}22, transparent 60%)`,
+                                    }} />
+                                )}
+                            </div>
+
+                            <div style={{ padding: '2rem' }}>
+                                <h2 style={{ fontSize: '2.5rem', margin: '0 0 0.5rem 0' }}>{selectedWork.title}</h2>
+                                <p style={{ fontSize: '1.2rem', color: '#888', margin: 0 }}>{selectedWork.category}</p>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* Footer */}
             {/* About Section */}
