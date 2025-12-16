@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import project1 from './assets/project1.png';
 import project1_2 from './assets/project1_2.png';
@@ -19,6 +19,8 @@ import project5_3 from './assets/project5_3.jpg';
 
 import project6 from './assets/project6.png';
 import project6_2 from './assets/project6_2.png';
+
+import bgPattern from './assets/bg-pattern.png';
 
 interface Work {
     id: number;
@@ -63,6 +65,115 @@ const FloatingBubble = ({ size, color, top, left, delay, duration, opacity = 0.5
                 delay: delay
             }}
         />
+    );
+};
+
+// --- New Interaction Components ---
+
+const CustomCursor = () => {
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const [isHovering, setIsHovering] = useState(false);
+
+    useEffect(() => {
+        const updateMousePosition = (e: MouseEvent) => {
+            setMousePosition({ x: e.clientX, y: e.clientY });
+
+            // Check if hovering over clickable elements
+            const target = e.target as HTMLElement;
+            const isClickable =
+                target.tagName === 'A' ||
+                target.tagName === 'BUTTON' ||
+                target.closest('a') ||
+                target.closest('button') ||
+                target.closest('[role="button"]');
+
+            setIsHovering(!!isClickable);
+        };
+
+        window.addEventListener('mousemove', updateMousePosition);
+        return () => window.removeEventListener('mousemove', updateMousePosition);
+    }, []);
+
+    return (
+        <>
+            <style>{`
+                body, a, button { cursor: none !important; }
+                /* Fallback for touch devices could go here */
+            `}</style>
+            <motion.div
+                style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    x: mousePosition.x - 10,
+                    y: mousePosition.y - 10,
+                    width: '20px',
+                    height: '20px',
+                    backgroundColor: 'rgba(50, 50, 50, 0.8)',
+                    borderRadius: '50%',
+                    pointerEvents: 'none',
+                    zIndex: 9999,
+                    mixBlendMode: 'difference'
+                }}
+                animate={{
+                    scale: isHovering ? 2.5 : 1,
+                    opacity: isHovering ? 0.5 : 1,
+                    backgroundColor: isHovering ? '#FFC6FF' : 'rgba(50, 50, 50, 0.8)'
+                }}
+                transition={{
+                    type: "spring",
+                    stiffness: 500,
+                    damping: 28,
+                    mass: 0.5
+                }}
+            />
+            <motion.div
+                style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    x: mousePosition.x - 4,
+                    y: mousePosition.y - 4,
+                    width: '8px',
+                    height: '8px',
+                    backgroundColor: 'white',
+                    borderRadius: '50%',
+                    pointerEvents: 'none',
+                    zIndex: 10000,
+                }}
+            />
+        </>
+    );
+};
+
+const Magnetic = ({ children }: { children: React.ReactElement }) => {
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const ref = React.useRef<HTMLDivElement>(null);
+
+    const handleMouse = (e: React.MouseEvent) => {
+        const { clientX, clientY } = e;
+        const { left, top, width, height } = ref.current?.getBoundingClientRect() || { left: 0, top: 0, width: 0, height: 0 };
+        const center = { x: left + width / 2, y: top + height / 2 };
+        const x = clientX - center.x;
+        const y = clientY - center.y;
+        setPosition({ x: x * 0.3, y: y * 0.3 }); // Intensity of magnetic effect
+    };
+
+    const reset = () => {
+        setPosition({ x: 0, y: 0 });
+    };
+
+    const { x, y } = position;
+    return (
+        <motion.div
+            ref={ref}
+            onMouseMove={handleMouse}
+            onMouseLeave={reset}
+            animate={{ x, y }}
+            transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
+        >
+            {children}
+        </motion.div>
     );
 };
 
@@ -156,6 +267,39 @@ function App() {
 
             {/* --- Global Background Decorations --- */}
             <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 0, pointerEvents: 'none', overflow: 'hidden' }}>
+                <style>{`
+                    @keyframes slideBg {
+                        0% { background-position: 0% 0%; }
+                        100% { background-position: 100% 100%; }
+                    }
+                `}</style>
+
+                {/* 1. Subtle Moving Data Stream Pattern */}
+                <div style={{
+                    position: 'absolute',
+                    top: '-50%',
+                    left: '-50%',
+                    right: '-50%',
+                    bottom: '-50%',
+                    backgroundImage: `url(${bgPattern})`,
+                    backgroundSize: '1000px', // Adjust size of the pattern
+                    backgroundRepeat: 'repeat',
+                    opacity: 0.045, // Very subtle
+                    animation: 'slideBg 120s linear infinite',
+                    transform: 'rotate(-5deg)'
+                }} />
+
+                {/* 2. Ambient Light Overlay */}
+                <div style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: 'radial-gradient(circle at 50% 10%, rgba(189, 178, 255, 0.15), rgba(160, 196, 255, 0.05) 40%, transparent 80%)',
+                    mixBlendMode: 'screen'
+                }} />
+
                 <FloatingBubble size="350px" color="rgba(160, 196, 255, 0.15)" top="-10%" left="60%" delay={0} duration={18} />
                 <FloatingBubble size="450px" color="rgba(189, 178, 255, 0.15)" top="40%" left="-10%" delay={5} duration={22} />
                 <FloatingBubble size="300px" color="rgba(255, 198, 255, 0.2)" top="80%" left="80%" delay={2} duration={15} />
@@ -180,9 +324,11 @@ function App() {
                 </div>
                 <div style={{ display: 'flex', gap: '2.5rem' }}>
                     {['Work', 'About', 'Contact'].map((item) => (
-                        <a key={item} href={`#${item.toLowerCase()}`} style={{ textDecoration: 'none', color: '#555', fontWeight: 600, fontSize: '0.95rem', transition: 'color 0.2s' }}>
-                            {item}
-                        </a>
+                        <Magnetic key={item}>
+                            <a href={`#${item.toLowerCase()}`} style={{ display: 'inline-block', padding: '0.5rem 1rem', textDecoration: 'none', color: '#555', fontWeight: 600, fontSize: '0.95rem', transition: 'color 0.2s' }}>
+                                {item}
+                            </a>
+                        </Magnetic>
                     ))}
                 </div>
             </nav>
@@ -259,21 +405,23 @@ function App() {
                         Hi, I'm <b>Eunseo</b>. I build digital experiences that feel alive, intuitive, and just a little bit playful.
                     </p>
 
-                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                        <a href="#work" style={{
-                            display: 'inline-block',
-                            padding: '1.2rem 3rem',
-                            background: '#333',
-                            color: 'white',
-                            borderRadius: '50px',
-                            textDecoration: 'none',
-                            fontWeight: 700,
-                            fontSize: '1.1rem',
-                            boxShadow: '0 15px 30px rgba(0,0,0,0.15)',
-                        }}>
-                            View Selected Works
-                        </a>
-                    </motion.div>
+                    <Magnetic>
+                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                            <a href="#work" style={{
+                                display: 'inline-block',
+                                padding: '1.2rem 3rem',
+                                background: '#333',
+                                color: 'white',
+                                borderRadius: '50px',
+                                textDecoration: 'none',
+                                fontWeight: 700,
+                                fontSize: '1.1rem',
+                                boxShadow: '0 15px 30px rgba(0,0,0,0.15)',
+                            }}>
+                                View Selected Works
+                            </a>
+                        </motion.div>
+                    </Magnetic>
                 </motion.div>
             </header>
 
@@ -456,20 +604,22 @@ function App() {
                         <h2 style={{ fontSize: '3rem', fontWeight: 800, marginBottom: '1.5rem' }}>Let's make something<br />unforgettable.</h2>
                         <p style={{ fontSize: '1.3rem', color: '#aaa', marginBottom: '3rem' }}>Open for collaborations and fun projects.</p>
 
-                        <a href="mailto:hello@eunseo.design" style={{
-                            display: 'inline-block',
-                            padding: '1.5rem 4rem',
-                            background: 'white',
-                            color: '#222',
-                            borderRadius: '50px',
-                            textDecoration: 'none',
-                            fontWeight: 800,
-                            fontSize: '1.2rem',
-                            transition: 'transform 0.2s',
-                            cursor: 'pointer'
-                        }}>
-                            Say Hello 👋
-                        </a>
+                        <Magnetic>
+                            <a href="mailto:hello@eunseo.design" style={{
+                                display: 'inline-block',
+                                padding: '1.5rem 4rem',
+                                background: 'white',
+                                color: '#222',
+                                borderRadius: '50px',
+                                textDecoration: 'none',
+                                fontWeight: 800,
+                                fontSize: '1.2rem',
+                                transition: 'transform 0.2s',
+                                cursor: 'pointer'
+                            }}>
+                                Say Hello 👋
+                            </a>
+                        </Magnetic>
                     </motion.div>
                 </section>
 
@@ -626,6 +776,7 @@ function App() {
                     </motion.div>
                 )}
             </AnimatePresence>
+            <CustomCursor />
         </div>
     );
 }
