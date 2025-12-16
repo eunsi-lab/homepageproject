@@ -20,7 +20,7 @@ import project5_3 from './assets/project5_3.jpg';
 import project6 from './assets/project6.png';
 import project6_2 from './assets/project6_2.png';
 
-import bgPattern from './assets/bg-pattern.png';
+import bgPattern from './assets/bg-tech-white.png';
 
 interface Work {
     id: number;
@@ -274,7 +274,7 @@ function App() {
                     }
                 `}</style>
 
-                {/* 1. Subtle Moving Data Stream Pattern */}
+                {/* 1. Subtle Moving Data Stream Pattern - OPTIMIZED FOR WHITE BG */}
                 <div style={{
                     position: 'absolute',
                     top: '-50%',
@@ -282,22 +282,23 @@ function App() {
                     right: '-50%',
                     bottom: '-50%',
                     backgroundImage: `url(${bgPattern})`,
-                    backgroundSize: '1000px', // Adjust size of the pattern
+                    backgroundSize: '1200px',
                     backgroundRepeat: 'repeat',
-                    opacity: 0.045, // Very subtle
+                    opacity: 0.08, // Slightly higher opacity as lines are thin
                     animation: 'slideBg 120s linear infinite',
-                    transform: 'rotate(-5deg)'
+                    transform: 'rotate(-5deg)',
+                    mixBlendMode: 'multiply' // Better for dark lines on white
                 }} />
 
-                {/* 2. Ambient Light Overlay */}
+                {/* 2. Ambient Light Overlay - More Subtle */}
                 <div style={{
                     position: 'absolute',
                     top: 0,
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    background: 'radial-gradient(circle at 50% 10%, rgba(189, 178, 255, 0.15), rgba(160, 196, 255, 0.05) 40%, transparent 80%)',
-                    mixBlendMode: 'screen'
+                    background: 'radial-gradient(circle at 50% 0%, rgba(189, 178, 255, 0.25), rgba(255, 255, 255, 0) 60%)',
+                    pointerEvents: 'none'
                 }} />
 
                 <FloatingBubble size="350px" color="rgba(160, 196, 255, 0.15)" top="-10%" left="60%" delay={0} duration={18} />
